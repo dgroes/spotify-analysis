@@ -70,7 +70,9 @@ print(f"\n{PINK}¿Las canciones más largas suelen ser más populares?{RESET}")
 
 # Calcular la correlación entre las 2  columnas
 data_duration_limit = data[data['duration_ms'] <= limit_ms]
-correlacion = data_duration_limit['duration_ms'].corr(data['popularity'])
+correlacion = data_duration_limit['duration_ms'].corr(
+    data_duration_limit['popularity']
+)
 
 # Con formato :.2f: Redondea y corta a 2 decimales (formatear números flotantes (con decimales) y controlar cuántos decimales)
 print(f"Coeficiente de correlación: {correlacion:.2f}")
@@ -124,3 +126,30 @@ else:
 # 6 ------------  
 # ¿Los géneros con mayor energy también tienen mayor tempo?
 print(f"\n{PINK}¿Los géneros con mayor energy también tienen mayor tempo?{RESET}")
+
+genre_stats = data.groupby('track_genre')[['energy', 'tempo']].mean()
+genre_energy = genre_stats['energy'].corr(genre_stats['tempo'])
+
+print(f"Coeficiente de correlación: {genre_energy:.2f}")
+
+if genre_energy > 0.3:
+    print("R: Sí, los géneros con más 'energy' tienden a tener un mayor tempo (correlación positiva).")
+elif genre_energy < -0.3:
+    print("R: No, de hecho, a mayor 'energy' tienden a tener un menor tempo (correlación inversa).")
+else:
+    print("R: No hay una relación clara; la 'energy' no influye en el tempo de los géneros.")
+
+
+# 7 ------------ 
+# ¿Qué características tienen las canciones con popularidad superior a 90?
+print(f"\n{PINK}¿Qué características tienen las canciones con popularidad superior a 90?{RESET}")
+most_popular = data['popularity'] >= 90
+
+
+porcentajes_genero = data.loc[most_popular, 'track_genre'].value_counts(normalize=True) * 100
+
+
+print(porcentajes_genero.map("{:.2f}%".format))
+
+
+# print(data.loc[most_popular, ['popularity','track_name', 'tempo', 'time_signature', 'instrumentalness', 'speechiness', 'track_genre']])

@@ -41,24 +41,21 @@ Pathlib es una **biblioteca nativa de Python (integrada en su biblioteca estánd
 Pandas es una de las librerías de Python más populares y fundamentales para la ciencia de datos y el análisis estadístico. Proporciona estructuras de datos flexibles y herramientas diseñadas específicamente para realizar la limpieza, manipulación, exploración y transformación de datos tabulares de forma rápida y sencilla
 - **DataFrames y Series**: Utiliza principalmente DataFrames (estructuras bidimensionales similares a tablas SQL u hojas de Excel con filas y columnas) y Series (estructuras unidimensionales, parecidas a una sola columna).
 - **Entrada y Salida versátil**: Permite cargar y exportar datos fácilmente desde y hacia diversos formatos, como archivos CSV, JSON, Excel y bases de datos SQL.- **Limpieza y modelado**: Facilita la gestión de valores nulos o faltantes, el filtrado avanzado de datos, y la agrupación para análisis estadísticos complejo
-# C05: Ponderación
-Para crear una métrica de popularidad que dependa de otro dato numérico, se debería aplicar una ponderación o una normalización. Esto evita que los números grandes distorsionen el resultado real.
-<br>
-| Objetivo | Fórmula matemática | Uso ideal |
-|----------|--------------------|-----------|
-| **Popularidad relativa** | `Popularidad ÷ Dato Numérico` | Medir éxito por unidad (ej. *likes* por cada reproducción). |
-| **Puntuación ponderada** | `(W₁ × Popularidad) + (W₂ × Dato Numérico)` | Combinar dos variables asignando un peso (`W`) a cada una. |
-| **Escala logarítmica** | `Popularidad × log(Dato Numérico + 1)` | Reducir el impacto de un dato numérico que crece demasiado, manteniendo su influencia. |
+# C05: Coeficiente de Correlación de Pearson
+El Coeficiente de Correlación de Pearson es una **medida estadística que calcula la fuerza y la dirección de la relación lineal entre dos variables numéricas**. dice, mediante un único número, si dos cosas se mueven juntas y qué tan ordenada es esa relación.
+Su valor siempre está estrictamente entre -1 y 1, y se interpreta a través de tres escenarios:
+- **1 (Correlación positiva perfecta)**: Si una variable sube, la otra sube en la misma proporción. En un gráfico, todos los puntos forman una línea recta perfecta hacia arriba.
+- **-1 (Correlación negativa perfecta)**: Si una variable sube, la otra baja de forma exacta. La línea recta perfecta va hacia abajo.
+- **0 (Sin correlación)**: Las variables no tienen ninguna relación lineal. Los movimientos de una no permiten predecir los de la otra; los datos se ven como una nube dispersa de puntos.
+# C06: Correlación moderada
+El valor 0.3 se utiliza porque, en estadística, es el límite estándar para considerar que una relación entre dos variables deja de ser "despreciable" o débil y pasa a ser una correlación moderada.
 
+| Rango del valor | Fuerza de la relación |
+|-----------------|-----------------------|
+| **0.00 a 0.29** | Despreciable / Muy débil |
+| **0.30 a 0.49** | Moderada / Media |
+| **0.50 a 1.00** | Fuerte / Muy fuerte |
 
-**Ejemplo de popularidad Relativa**:
-```py
-import math
-
-likes = 150
-vistas = 3000
-
-# Truncado a 2 decimales para evitar flotantes largos
-ratio_popularidad = math.trunc((likes / vistas) * 100) / 100
-print(ratio_popularidad)  # Resultado: 0.05 (5% de éxito)
-```
+- **Mayor a 0.3**: Significa que hay una tendencia visible, aunque existan excepciones en los datos.
+- **Menor a -0.3**: Significa lo mismo, pero en sentido inverso (una relación negativa moderada).
+- **Entre -0.3 y 0.3**: Los datos están tan dispersos que se considera que se mueven al azar y no se influyen entre sí.
